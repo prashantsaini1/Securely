@@ -1,0 +1,68 @@
+<p><a href="https://github.com/benbahrenburg/Securely">&lt;&lt; back to the Securely main page</a></p>
+
+<p>BenCoding.Securely</p>
+
+<p>The key generation methods are available at the root of the securely module.</p>
+
+<p>&lt;h2&gt;Getting Started&lt;/h2&gt;
+<em> First you need to download and install the module as discussed <a href="https://github.com/benbahrenburg/Securely">here.</a>
+</em> You can now use the module via the commonJS require method, example shown below.</p>
+
+<p>&lt;pre&gt;&lt;code&gt;
+var securely = require(&#39;bencoding.securely&#39;);
+&lt;/code&gt;&lt;/pre&gt;</p>
+
+<p>&lt;h2&gt;Requiring Securely into your project&lt;/h2&gt;</p>
+
+<p>Requiring the module into your project</p>
+
+<p>&lt;pre&gt;&lt;code&gt;
+//Require the securely module into your project
+var securely = require(&#39;bencoding.securely&#39;);</p>
+
+<p>&lt;/code&gt;&lt;/pre&gt;</p>
+
+<p>&lt;h2&gt;Methods&lt;/h2&gt;</p>
+
+<p>&lt;h3&gt;generateDerivedKey&lt;/h3&gt;</p>
+
+<p>The generateDerivedKey method takes an input string and uses this string as a seed to generate a derived key.  This key then can be used as a password or key for later encryption method.</p>
+
+<p>&lt;b&gt;Arguments&lt;/b&gt;</p>
+
+<p>The generateDerivedKey method takes the following arguments ( order is important ).</p>
+
+<p>&lt;b&gt;1. String&lt;/b&gt; - (required) String to be used as the derived key&#39;s seed value.</p>
+
+<p>&lt;b&gt;Return value&lt;/b&gt;
+String</p>
+
+<p>&lt;b&gt;Example&lt;/b&gt;
+&lt;pre&gt;&lt;code&gt;</p>
+
+<p>var usingGUID = securely.generateDerivedKey(Ti.Platform.createUUID());	
+Ti.API.info(&quot;Derived key using GUID = &quot; + usingGUID);</p>
+
+<p>&lt;/code&gt;&lt;/pre&gt;</p>
+
+<hr/>
+
+<p>&lt;h3&gt;generateRandomKey&lt;/h3&gt;</p>
+
+<p>The generateRandomKey method generates a randomly generated key.  This key then can be used as a password or key for later encryption method.</p>
+
+<p>&lt;b&gt;Arguments&lt;/b&gt;
+None</p>
+
+<p>&lt;b&gt;Return value&lt;/b&gt;
+String</p>
+
+<p>&lt;b&gt;Example&lt;/b&gt;
+&lt;pre&gt;&lt;code&gt;</p>
+
+<p>var randomKey = securely.generateRandomKey();
+Ti.API.info(&quot;Random Key = &quot; + randomKey);</p>
+
+<p>&lt;/code&gt;&lt;/pre&gt;</p>
+
+<hr/>

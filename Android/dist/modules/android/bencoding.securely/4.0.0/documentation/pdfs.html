@@ -1,0 +1,110 @@
+<p><a href="https://github.com/benbahrenburg/Securely">&lt;&lt; back to the Securely main page</a></p>
+
+<p>BenCoding.Securely.PDF</p>
+
+<p>The Securely PDF module is used to lock and unlock PDF files.  Please note this is an iOS specific module.  </p>
+
+<p>&lt;h2&gt;Getting Started&lt;/h2&gt;
+<em> First you need to download and install the module as discussed <a href="https://github.com/benbahrenburg/Securely">here.</a>
+</em> You can now use the module via the commonJS require method, example shown below.</p>
+
+<p>&lt;pre&gt;&lt;code&gt;
+var securely = require(&#39;bencoding.securely&#39;);
+&lt;/code&gt;&lt;/pre&gt;</p>
+
+<p>&lt;h2&gt;Requiring Securely into your project&lt;/h2&gt;</p>
+
+<p>Requiring the module into your project</p>
+
+<p>&lt;pre&gt;&lt;code&gt;
+//Require the securely module into your project
+var securely = require(&#39;bencoding.securely&#39;);</p>
+
+<p>&lt;/code&gt;&lt;/pre&gt;</p>
+
+<p>&lt;h2&gt;Creating the PDF Object&lt;/h2&gt;
+The following demonstrates how to create a new instance of the Securely PDF component.</p>
+
+<p>&lt;pre&gt;&lt;code&gt;
+var pdf = securely.createPDF();
+&lt;/code&gt;&lt;/pre&gt;</p>
+
+<p>&lt;h2&gt;Methods&lt;/h2&gt;</p>
+
+<p>&lt;h3&gt;protect&lt;/h3&gt;( Dictionary options )
+Creates a new password protected PDF using an existing unprotected PDF.</p>
+
+<p>&lt;b&gt;Parameters&lt;/b&gt;</p>
+
+<p>The protected method takes a dictionary with the following options:</p>
+
+<p>&lt;b&gt;userPassword&lt;/b&gt; - User level password to lock the PDF with</p>
+
+<p>&lt;b&gt;ownerPassword&lt;/b&gt; - Owner level password to lock the PDF with</p>
+
+<p>&lt;b&gt;from&lt;/b&gt; - The path for an existing unlocked PDF to be used as the source to create a new locked PDF</p>
+
+<p>&lt;b&gt;to&lt;/b&gt; - The output path for a new locked PDF to be created using the source PDF provided in the from parameter</p>
+
+<p>&lt;b&gt;allowCopy&lt;/b&gt; - (true/false) if the locked PDF should allow for copying</p>
+
+<p>&lt;b&gt;allowPrint&lt;/b&gt; - (true/false) if the locked PDF should allow for printing</p>
+
+<p>&lt;b&gt;completed&lt;/b&gt; - The callback method that will be called after the locked PDF is created.</p>
+
+<p>&lt;b&gt;Example&lt;/b&gt;
+&lt;pre&gt;&lt;code&gt;
+function onProtected(e){
+  //Print full statement to the console
+	Ti.API.info(JSON.stringify(e));
+};</p>
+
+<p>var inputFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, &#39;my.pdf&#39;);				
+var outputFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, &#39;myLocked.pdf&#39;);</p>
+
+<p>pdf.protect({
+	userPassword:&quot;your<em>password&quot;,
+	ownerPassword:&quot;your</em>password&quot;,
+	from:inputFile.nativePath,
+	to:outputFile.nativePath,
+	allowCopy:false,
+	allowPrint:true,
+	completed:onProtected
+});
+&lt;/code&gt;&lt;/pre&gt;</p>
+
+<hr/>
+
+<p>&lt;h3&gt;unprotect&lt;/h3&gt;( Dictionary options )
+Creates a new unlocked PDF from an existing locked PDF document.</p>
+
+<p>&lt;b&gt;Parameters&lt;/b&gt;
+The unprotect method takes a dictionary with the following options:</p>
+
+<p>&lt;b&gt;password&lt;/b&gt; - Owner level password to unlock the PDF</p>
+
+<p>&lt;b&gt;from&lt;/b&gt; - The path for an existing password protected PDF to be used as the source to create a new unlocked PDF</p>
+
+<p>&lt;b&gt;to&lt;/b&gt; - The output path for a new unlocked PDF to be created using the source PDF provided in the from parameter</p>
+
+<p>&lt;b&gt;completed&lt;/b&gt; - The callback method that will be called after the unlocked PDF is created.</p>
+
+<p>&lt;b&gt;Example&lt;/b&gt;
+&lt;pre&gt;&lt;code&gt;
+function onUnlock(e){
+  //Print full statement to the console
+	Ti.API.info(JSON.stringify(e));
+};</p>
+
+<p>var protectedFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, &#39;myLocked.pdf&#39;),
+	unlockedFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, &#39;myUnlocked.pdf&#39;);</p>
+
+<p>pdf.unprotect({
+	password:txtPassword.value,
+	from:protectedFile.nativePath,
+	to:unlockedFile.nativePath,
+	completed:onUnlock
+});
+&lt;/code&gt;&lt;/pre&gt;</p>
+
+<hr/>

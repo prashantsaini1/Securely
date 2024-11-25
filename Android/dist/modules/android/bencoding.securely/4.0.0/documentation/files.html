@@ -1,0 +1,130 @@
+<p><a href="https://github.com/benbahrenburg/Securely">&lt;&lt; back to the Securely main page</a></p>
+
+<p>BenCoding.Securely.FileCrypto</p>
+
+<p>The Securely FileCrypto module is used to encrypt and decrypt files using the AES encryption algorithm.  </p>
+
+<p>&lt;h2&gt;Getting Started&lt;/h2&gt;
+<em> First you need to download and install the module as discussed <a href="https://github.com/benbahrenburg/Securely">here.</a>
+</em> You can now use the module via the commonJS require method, example shown below.</p>
+
+<p>&lt;pre&gt;&lt;code&gt;
+var securely = require(&#39;bencoding.securely&#39;);
+&lt;/code&gt;&lt;/pre&gt;</p>
+
+<p>&lt;h2&gt;Requiring Securely into your project&lt;/h2&gt;</p>
+
+<p>Requiring the module into your project</p>
+
+<p>&lt;pre&gt;&lt;code&gt;
+//Require the securely module into your project
+var securely = require(&#39;bencoding.securely&#39;);</p>
+
+<p>&lt;/code&gt;&lt;/pre&gt;</p>
+
+<p>&lt;h2&gt;Creating the FileCrypto Object&lt;/h2&gt;</p>
+
+<p>The following demonstrates how to create a new instance of the Securely FileCrypto component.</p>
+
+<p>&lt;pre&gt;&lt;code&gt;
+var fileCrypto = securely.createFileCrypto()
+&lt;/code&gt;&lt;/pre&gt;</p>
+
+<p>&lt;h2&gt;Methods&lt;/h2&gt;</p>
+
+<p>&lt;h3&gt;AESEncrypt&lt;/h3&gt; </p>
+
+<p>As the name implies this method uses the AES encryption algorithm to encrypt a file.  The password is used as the AES key during the encryption process.</p>
+
+<p>&lt;b&gt;Parameters&lt;/b&gt;</p>
+
+<p>The AESEncrypt method takes a dictionary with the  following properties.</p>
+
+<p>&lt;b&gt;1. password&lt;/b&gt; - (required) The password used as the encryption seed.</p>
+
+<p>&lt;b&gt;2. from&lt;/b&gt; - (required) The file nativePath you wish to be encrypted</p>
+
+<p>&lt;b&gt;3. to&lt;/b&gt; - (required) The file nativePath in which the encrypted file should be generated to. If the file exists, it will be deleted before being created.</p>
+
+<p>&lt;b&gt;4. completed&lt;/b&gt; - (required) The callback method used to return the results of the encryption process.</p>
+
+<p>&lt;b&gt;Example&lt;/b&gt;
+&lt;pre&gt;&lt;code&gt;</p>
+
+<p>function onEncryptCompleted(e){
+  //Print full statement to the console
+	Ti.API.info(JSON.stringify(e));
+	if(e.success){
+		alert(&#39;Encrypted file created at: &#39; + e.to);
+		var test = Ti.Filesystem.getFile(e.to);
+		if(!test.exists()){
+			Ti.API.info(&quot;test failed, file missing&quot;);
+		}else{
+			Ti.API.info(&quot;Test file contents:\n&quot; + (test.read()).text);	
+		}	
+	}else{
+		alert(&#39;failed due to: &#39; + e.message);
+	}
+};</p>
+
+<p>var plainTextFile = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, &#39;PlainText.txt&#39;),
+	  futureEncrypted = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, &#39;encryptedFile.txt&#39;);</p>
+
+<p>fileCrypto.AESEncrypt({
+	password:&quot;your password&quot;,
+	from:plainTextFile.nativePath,
+	to:futureEncrypted.nativePath,
+	completed:onEncryptCompleted
+});</p>
+
+<p>&lt;/code&gt;&lt;/pre&gt;</p>
+
+<hr/>
+
+<p>&lt;h3&gt;AESDecrypt&lt;/h3&gt;</p>
+
+<p>As the name implies this method uses the AES encryption algorithm to decrypt a file.  The password is used as the AES key during the encryption process.</p>
+
+<p>&lt;b&gt;Parameters&lt;/b&gt;</p>
+
+<p>The AESDecrypt method takes a dictionary with the  following properties.</p>
+
+<p>&lt;b&gt;1. password&lt;/b&gt; - (required) The password used as the encryption seed.</p>
+
+<p>&lt;b&gt;2. from&lt;/b&gt; - (required) The file nativePath you wish to be decrypt</p>
+
+<p>&lt;b&gt;3. to&lt;/b&gt; - (required) The file nativePath in which the unencrypted file should be generated to. If the file exists, it will be deleted before being created.</p>
+
+<p>&lt;b&gt;4. completed&lt;/b&gt; - (required) The callback method used to return the results of the decryption process.</p>
+
+<p>&lt;b&gt;Example&lt;/b&gt;
+&lt;pre&gt;&lt;code&gt;</p>
+
+<p>function onDecryptCompleted(e){
+  //Print full statement to the console
+	Ti.API.info(JSON.stringify(e));
+	if(e.success){
+		alert(&#39;Decrypted file created at: &#39; + e.to);
+		var test = Ti.Filesystem.getFile(e.to);
+		if(!test.exists()){
+			Ti.API.info(&quot;test failed, file missing&quot;);
+		}else{
+			Ti.API.info(&quot;Test file contents:\n&quot; + (test.read()).text);	
+		}	
+	}else{
+		alert(&#39;failed due to: &#39; + e.message);
+	}
+};</p>
+
+<p>var encryptedFile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, &#39;encryptedFile.txt&#39;),
+	  futureDecrypted = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, &#39;decryptedFile.txt&#39;);</p>
+
+<p>fileCrypto.AESDecrypt({
+	password:&quot;your password&quot;,
+	from:encryptedFile.nativePath,
+	to:futureDecrypted.nativePath,
+	completed:onDecryptCompleted
+});
+&lt;/code&gt;&lt;/pre&gt;</p>
+
+<hr/>

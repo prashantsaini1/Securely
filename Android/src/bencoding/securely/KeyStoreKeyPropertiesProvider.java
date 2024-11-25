@@ -11,8 +11,8 @@ import java.security.NoSuchProviderException;
 
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
-import android.support.annotation.NonNull;
 import android.util.Base64;
+import androidx.annotation.NonNull;
 
 import org.appcelerator.titanium.TiApplication;
 import org.appcelerator.titanium.util.TiConvert;
